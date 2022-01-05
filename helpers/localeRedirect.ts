@@ -1,10 +1,11 @@
-export const determineLocaleFromUrlAndRewriteUrls = (hostname: string, locale: string, pathname: string): { locale: string, pathname: string, redirect: boolean } => {
+export const determineLocaleFromUrlAndRewriteUrls = (hostname: string, pathname: string): { locale: string, pathname: string, redirect: boolean } => {
     let result = {
-        locale,
-        pathname,
+        locale: 'de_DE',
+        pathname: pathname,
         redirect: false,
     }
 
+    const localePathMatcher = /^\/(nl|de|fr|en)(_(DE|BE|CH|EU|NL|AT))?/i
     const territoryLanguageMap: { [ key:string ]: Array<string> } = {
         DE: ['de'],
         BE: ['nl', 'fr'],
@@ -13,8 +14,6 @@ export const determineLocaleFromUrlAndRewriteUrls = (hostname: string, locale: s
         NL: ['nl'],
         AT: ['de'],
     }
-
-    console.log(hostname, locale, pathname)
 
     // @HACK: Vercel on production prepends `/de_DE` to the path, and we, right
     // now, have no idea where this comes from. This actually leads to endless
@@ -36,16 +35,16 @@ export const determineLocaleFromUrlAndRewriteUrls = (hostname: string, locale: s
     }
 
     // Domain has multiple languages assigned
-    matches = pathname.match(/^\/(nl|de|fr|en)(_(DE|BE|CH|EU|NL|AT))?/i)
+    matches = pathname.match(localePathMatcher)
     if (matches && territoryLanguageMap[territory].includes(matches[1])) {
         result.locale = matches[1] + '_' + territory
-        result.pathname = pathname.replace(/^(\/(nl|de|fr|en)(_(DE|BE|CH|EU|NL|AT))?)+/i, '') 
+        result.pathname = pathname.replace(localePathMatcher, '') 
         return result
     }
 
     const language = territoryLanguageMap[territory][0]
     result.locale = language + '_' + territory
-    result.pathname = '/' + language + pathname.replace(/^(\/(nl|de|fr|en)(_(DE|BE|CH|EU|NL|AT))?)+/i, '')
+    result.pathname = '/' + language + pathname.replace(localePathMatcher, '')
     result.redirect = true
     return result
 }

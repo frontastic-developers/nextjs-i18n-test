@@ -4,7 +4,6 @@ import { determineLocaleFromUrlAndRewriteUrls } from '../helpers/localeRedirect'
 export function middleware(request: NextRequest) { 
   const result = determineLocaleFromUrlAndRewriteUrls(
     request.headers.get('host') || 'localhost',
-    request.nextUrl.locale,
     request.nextUrl.pathname
   )
 
