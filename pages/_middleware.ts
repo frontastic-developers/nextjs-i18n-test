@@ -14,7 +14,6 @@ export function middleware(request: NextRequest) {
     request.nextUrl.href = "https://" + request.headers.get('host') + result.pathname
 
     console.log("REDIRECT to", request.nextUrl.pathname, request.nextUrl.locale)
-
     return NextResponse.redirect(request.nextUrl)
   }
 
@@ -25,7 +24,6 @@ export function middleware(request: NextRequest) {
     request.nextUrl.locale = result.locale
 
     console.log("RE-WRITE to", request.nextUrl.pathname, request.nextUrl.locale)
-
     return NextResponse.rewrite(request.nextUrl)
   }
 

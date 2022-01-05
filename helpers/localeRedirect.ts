@@ -38,6 +38,8 @@ export const determineLocaleFromUrlAndRewriteUrls = (hostname: string, pathname:
     matches = pathname.match(localePathMatcher)
     if (matches && territoryLanguageMap[territory].includes(matches[1])) {
         result.locale = matches[1] + '_' + territory
+        // The language must not be part of the returned path, so that the
+        // normal router can work:
         result.pathname = pathname.replace(localePathMatcher, '') 
         return result
     }
