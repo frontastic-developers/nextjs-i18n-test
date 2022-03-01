@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 
 export default function Home({ router }) {
   return (
@@ -10,10 +10,12 @@ export default function Home({ router }) {
       <main>
         <h1 className="title">I18N Test Bed</h1>
         <dl>
-          <dt>Locale</dt><dd>{router.locale}</dd>
-          <dt>Path</dt><dd>{router.pathname}</dd>
+          <dt>Locale</dt>
+          <dd>{router.locale}</dd>
+          <dt>Path</dt>
+          <dd>{router.pathname}</dd>
         </dl>
       </main>
     </div>
-  )
+  );
 }
